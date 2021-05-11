@@ -22,4 +22,11 @@ export class RequestsService {
     const url = 'https://jsonplaceholder.typicode.com/posts'
     return this.http.get<PostsModel[]>(url)
   }
+
+  deleteUser(user: UsersModel){
+    const endpoint = 'https://jsonplaceholder.typicode.com/users';
+    const url =  `${endpoint}/${user}`;
+    return this.http.delete(url);
+
+  }
 }

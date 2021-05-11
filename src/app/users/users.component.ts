@@ -28,5 +28,10 @@ export class UsersComponent{
       )
   }
  
+  onDeleteUser(user: UsersModel){
+    this.usersList = this.usersList.filter(u => u !== user);
+    this.usersSrv.deleteUser(user)
+      
+  }
 
 }
