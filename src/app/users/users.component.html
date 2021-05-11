@@ -1,0 +1,26 @@
+<div class="container my-4">
+    <h2 class="text-center">Users List</h2>
+    <button class="btn btn-success mb-3" (click)="onGetUsers()">Click to get users</button>
+    <div class="row">
+        <div class="col-sm-3 mb-3" *ngFor="let user of usersList">
+            <div class="card" >
+                <div class="card-header">
+                   User: #{{user.id}}
+                </div>
+                <div class="card-body">
+                  <h5 class="card-title">{{user.name}}</h5>
+                  <p class="card-text">
+                    <span>Username: {{user.username}}</span><br>
+                    <span>Email: {{user.email}}</span><br>
+                    <span>Address: {{user.address.city}} City, {{user.address.street}} Street</span>
+                  </p>
+                </div>
+                <button class="btn btn-success">Go to user page</button>
+              </div>
+             
+        </div>
+        <p *ngIf="usersList.length === 0" class="text-center">
+            {{errorMsg}}
+        </p>
+    </div>
+</div>

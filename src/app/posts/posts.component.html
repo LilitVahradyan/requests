@@ -1,0 +1,25 @@
+<div class="container my-4">
+    <h2 class="text-center">Posts List</h2>
+    <button class="btn btn-success mb-3" (click)="onGetPosts()">Click to get posts</button>
+    <div class="row">
+        <div class="col-sm-3 mb-3" *ngFor="let post of postsList">
+            <div class="card" >
+                <div class="card-header">
+                   Post: #{{post.id}}
+                </div>
+                <div class="card-body">
+                  <h5 class="card-title">{{post.title | uppercase}}</h5>
+                  <p class="card-text">
+                    {{post.body}}
+                  </p>
+                </div>
+                <button class="btn btn-success">Go to post page</button>
+              </div>
+             
+        </div>
+        <p *ngIf="postsList.length === 0" class="text-center">
+            {{errorMsg}}
+        </p>
+    </div>
+</div>
+
