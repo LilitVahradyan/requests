@@ -1,8 +1,6 @@
-import { Component } from '@angular/core';
-import { filter, switchMap, map } from 'rxjs/operators';
-import { of, from } from 'rxjs';
+import { Component, OnInit } from '@angular/core';
 
-import { RequestsService } from '../services/requests.service';
+import { PostsService } from '../services/posts.service';
 import { PostsModel } from '../models/posts.model';
 
 
@@ -11,23 +9,37 @@ import { PostsModel } from '../models/posts.model';
   templateUrl: './posts.component.html',
   styleUrls: ['./posts.component.css']
 })
-export class PostsComponent{
+export class PostsComponent implements OnInit{
 
-  postsList: PostsModel[] = [];
+  postsList: PostsModel[];
   errorMsg: string = '';
 
-  constructor(private requestSrv: RequestsService) { }
-  
 
-  onGetPosts(){
-   this.requestSrv.getPosts()
+  constructor(
+    private requestSrv: PostsService
+   
+  ) { }
+  
+  ngOnInit(): void{
+    this.requestSrv.getPosts()
+    .subscribe(
+      (response: PostsModel[]) => {
+        this.postsList = response;
+      },
+      (error) => {
+        this.errorMsg = "There is no usres!";
+      }
+    )
+  }
+  
+  onDeletePost(index: number){
+    this.requestSrv.deletePost(index)
       .subscribe(
-        (response: PostsModel[]) => {
-          this.postsList = response;
-         
+        (response) => {
+          this.postsList.splice(index, 1)
         },
         (error) => {
-          this.errorMsg = "There is no usres!";
+          alert('Something went wrong. Please try agin.')
         }
       )
   }

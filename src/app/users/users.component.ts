@@ -1,7 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 
-
-import { RequestsService } from '../services/requests.service';
+import { UsersService } from '../services/users.service';
 import { UsersModel } from '../models/users.model';
 
 @Component({
@@ -9,29 +8,38 @@ import { UsersModel } from '../models/users.model';
   templateUrl: './users.component.html',
   styleUrls: ['./users.component.css']
 })
-export class UsersComponent{
-  usersList: UsersModel[] = [];
+
+export class UsersComponent implements OnInit{
+  
+  usersList: UsersModel[];
   errorMsg: string = '';
 
-  constructor(private usersSrv: RequestsService) { }
+  constructor(
+    private usersSrv: UsersService
+  ) { }
 
-  onGetUsers(){
+  ngOnInit(){
     this.usersSrv.getUsers()
       .subscribe(
         (response) => {
           this.usersList = response;
-
         },
         (error) => {
-          this.errorMsg = "There is no usres!";
+          this.errorMsg = "There is no users!";
         }
       )
   }
- 
-  onDeleteUser(user: UsersModel){
-    this.usersList = this.usersList.filter(u => u !== user);
-    this.usersSrv.deleteUser(user)
-      
+  
+  onDeleteUser(index: number){
+    this.usersSrv.deleteUser(index)
+      .subscribe(
+        (response) => {
+          this.usersList.splice(index, 1);
+        },
+        (error) => {
+         alert("Something went wronq. Please try again.");
+          console.log(this.errorMsg);
+        }
+    )
   }
-
 }
